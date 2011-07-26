@@ -15,4 +15,5 @@ old_dofile("builtin://lua_alchemy/as3/onclose.lua")
 old_dofile("builtin://lua_alchemy/as3/print.lua")
 
 old_dofile("builtin://lua_alchemy/lua/dofile.lua")
+old_dofile("builtin://lua_alchemy/lua/require.lua")
 old_dofile("builtin://lua_alchemy/lua/print.lua")

@@ -95,7 +95,7 @@ package luaAlchemy
     /**
     * Run the given file.  Returns an array of values represting
     * the results of the call.  The first return value is true/false based on
-    * if the string is successfully run.  If successful, the remaining values
+    * if the string is sucessfully run.  If sucessful, the remaining values
     * are the Lua return values.  If failed, the second value is the error.
     * Note at this time you can only run LuaAsset files.
     *
@@ -114,10 +114,9 @@ package luaAlchemy
     }
 
     /**
-    * Run the given file.  Calls callback when done.
-    * Callback should accept a single Array argument with
+    * Run the given file.  Returns an array of values represting
     * the results of the call.  The first return value is true/false based on
-    * if the string is successfully run.  If successful, the remaining values
+    * if the string is sucessfully run.  If sucessful, the remaining values
     * are the Lua return values.  If failed, the second value is the error.
     * Note at this time you can only run LuaAsset files.
     *
@@ -142,7 +141,7 @@ package luaAlchemy
     /**
     * Run the given string.  Returns an array of values represting
     * the results of the call.  The first return value is true/false based on
-    * if the string is successfully run.  If successful, the remaining values
+    * if the string is sucessfully run.  If sucessful, the remaining values
     * are the Lua return values.  If failed, the second value is the error.
     *
     * Deprecated. Use doStringAsync() instead.
@@ -160,10 +159,9 @@ package luaAlchemy
     }
 
     /**
-    * Run the given string.  Calls callback when done.
-    * Callback should accept a single Array argument with
+    * Run the given string.  Returns an array of values represting
     * the results of the call.  The first return value is true/false based on
-    * if the string is successfully run.  If successful, the remaining values
+    * if the string is sucessfully run.  If sucessful, the remaining values
     * are the Lua return values.  If failed, the second value is the error.
     *
     * Asynchronous version.
@@ -228,6 +226,169 @@ package luaAlchemy
     public function supplyFile(name:String, data:ByteArray):void
     {
       libInit.supplyFile(name, data);
+    }
+
+    /*My functions section*/
+    /**
+    * lua_pop implementation.
+    *
+    * @param n Number of calls which will be popped
+    */
+    public function luaPop(n:uint):void
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      lua_wrapper.as3_lua_pop(luaState, n);
+    }
+
+    /**
+    * lua_gettop implementation.
+    *
+    */
+    public function luaGetTop():int
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      return lua_wrapper.as3_lua_gettop(luaState);
+    }
+    
+    /**
+    * lua_getglobal implementation.
+    *
+    */
+    public function luaGetGlobal(name:String):void
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      lua_wrapper.as3_lua_getglobal(luaState, name);
+    }
+    
+    /**
+    * lua_getfield implementation.
+    *
+    */
+    public function luaGetField(index:int, name:String):void
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      lua_wrapper.as3_lua_getfield(luaState, index, name);
+    }
+    
+    /**
+    * lua_remove implementation.
+    *
+    */
+    public function luaRemove(index:int):void
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      lua_wrapper.as3_lua_remove(luaState, index);
+    }
+    
+    /**
+    * lua_pcall implementation.
+    *
+    */
+    public function luaPCall(nargs:int, nresults:int, errfunc:int):int
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      return lua_wrapper.as3_lua_pcall(luaState, nargs, nresults, errfunc);
+    }
+    
+    /**
+    * lua_toboolean implementation.
+    *
+    */
+    public function luaToBoolean(index:int):Boolean
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      if(lua_wrapper.as3_lua_toboolean(luaState, index) == 0)
+      {
+	return false;
+      }else{
+	return true;
+      }
+    }
+    
+    /**
+    * lua_tostring implementation.
+    *
+    */
+    public function luaToString(index:int):String
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      return lua_wrapper.as3_lua_tostring(luaState, index)[0] as String;
+    }
+    
+    /**
+    * lua_pushnil implementation.
+    *
+    */
+    public function luaPushNil():void
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      lua_wrapper.as3_lua_pushnil(luaState);
+    }
+    
+    /**
+    * lua_pushnumber implementation.
+    *
+    */
+    public function luaPushNumber(value:int):void
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      lua_wrapper.as3_lua_pushnumber(luaState, value);
+    }
+    
+    /**
+    * lua_pushboolean implementation.
+    *
+    */
+    public function luaPushBoolean(value:int):void
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      lua_wrapper.as3_lua_pushboolean(luaState, value);
+    }
+    
+    /**
+    * lua_pushstring implementation.
+    *
+    */
+    public function luaPushString(value:String):void
+    {
+      if (luaState == 0)
+      {
+        init();
+      }
+      lua_wrapper.as3_lua_pushstring(luaState, value);
     }
   }
 }

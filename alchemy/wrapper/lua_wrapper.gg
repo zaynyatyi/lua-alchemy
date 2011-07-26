@@ -293,3 +293,90 @@ public function setGlobalLuaValue(
   push_as3_to_lua_stack(luaState, value);
   lua_setglobal(luaState, key);
 }
+
+// lua_* functions wrapper for my Instead implementation
+public function as3_lua_pop(
+    luaState:(lua_State *)uint, n:uint
+  ):void
+{
+  lua_pop(luaState, n);
+}
+
+public function as3_lua_gettop(
+    luaState:(lua_State *)uint
+  ):int
+{
+  return lua_gettop(luaState);
+}
+
+public function as3_lua_getglobal(
+    luaState:(lua_State *)uint, name:String
+  ):void
+{
+  lua_getglobal(luaState, name);
+}
+
+public function as3_lua_getfield(
+    luaState:(lua_State *)uint, index:int, name:String
+  ):void
+{
+  lua_getfield(luaState, index, name);
+}
+
+public function as3_lua_remove(
+    luaState:(lua_State *)uint, index:int
+  ):void
+{
+  lua_remove(luaState, index);
+}
+
+public function as3_lua_pcall(
+    luaState:(lua_State *)uint, nargs:int, nresults:int, errfunc:int
+  ):int
+{
+  return lua_pcall(luaState, nargs, nresults, errfunc);
+}
+
+public function as3_lua_toboolean(
+    luaState:(lua_State *)uint, index:int
+  ):int
+{
+  return lua_toboolean(luaState, index);
+}
+
+public function as3_lua_tostring(
+    luaState:(lua_State *)uint, index:int
+  ):Array
+{
+  //sztrace(lua_tostring(luaState, index));
+  return AS3_Array("StrType", lua_tostring(luaState, index)); // dirty hack
+  //return AS3_Array("StrType", "Lopalotablontaroga"); // test
+}
+
+public function as3_lua_pushnil(
+    luaState:(lua_State *)uint
+  ):void
+{
+  lua_pushnil(luaState);
+}
+
+public function as3_lua_pushnumber(
+    luaState:(lua_State *)uint, value:int
+  ):void
+{
+  lua_pushnumber(luaState, value);
+}
+
+public function as3_lua_pushboolean(
+    luaState:(lua_State *)uint, value:int
+  ):void
+{
+  lua_pushboolean(luaState, value);
+}
+
+public function as3_lua_pushstring(
+    luaState:(lua_State *)uint, value:String
+  ):void
+{
+  lua_pushstring(luaState, value);
+}
